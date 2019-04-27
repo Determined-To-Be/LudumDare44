@@ -9,6 +9,7 @@ public class HandController : MonoBehaviour
     public Vector3 initialPos;
     public float movementSmoothness = 3;
 
+
     /**
     * Hand Controller needed
     * 
@@ -40,7 +41,7 @@ public class HandController : MonoBehaviour
         Vector3 deltaMouse = Input.mousePosition - lastMousePos;
         lastMousePos = Input.mousePosition;
 
-        offSet += new Vector3(deltaMouse.x, 0, deltaMouse.y) * Time.deltaTime; //Do we need Time.deltaTime? Yes
+        offSet += new Vector3(deltaMouse.x / (float)Screen.width - .5f, 0, deltaMouse.y / (float)Screen.height- .5f);
 
         this.transform.position = Vector3.Lerp(this.transform.position, initialPos + offSet, movementSmoothness * Time.deltaTime);
     }
