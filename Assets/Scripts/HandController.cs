@@ -4,15 +4,44 @@ using UnityEngine;
 
 public class HandController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    public Vector3 lastMousePos;
+    public Vector3 offSet;
+    public Vector3 initialPos;
+    public float movementSmoothness = 3;
+
+    /**
+    * Hand Controller needed
+    * 
+    * Lateral movement
+    * - W A S D controls? or Mouse Controls
+    * 
+    * Finger Control (Righty)
+    * - A S D F SPACE?
+    * - LShift A W D SPACE
+    *
+    * Finger Control (Lefty)
+    * - ; L K J Space
+    * - RShift ' P L Space
+    */
+
+    void Start(){
+        initialPos = this.transform.position;
+        lastMousePos = Input.mousePosition;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
+    void Update(){
         
+        LateralMovment();
+    }
+
+    
+
+    void LateralMovment(){
+        Vector3 deltaMouse = Input.mousePosition - lastMousePos;
+        lastMousePos = Input.mousePosition;
+
+        offSet += new Vector3(deltaMouse.x, 0, deltaMouse.y) * Time.deltaTime; //Do we need Time.deltaTime? Yes
+
+        this.transform.position = Vector3.Lerp(this.transform.position, initialPos + offSet, movementSmoothness * Time.deltaTime);
     }
 }
