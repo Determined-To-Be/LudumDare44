@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class Stock
 {
-    // add News
+    private static int interval = 60; // time projection for news
+    
     List<float> values = new List<float>();
     string key;
     float dividend;
-    int shares, myShares;
+    int shares, myShares, bought;
 
     public Stock(string key, float dividend, float value, int shares)
     {
@@ -16,7 +17,7 @@ public class Stock
         this.dividend = dividend;
         values.Add(value);
         this.shares = shares;
-        myShares = 0;
+        myShares = bought = 0;
     }
 
     public void setValue(float val)
@@ -26,57 +27,51 @@ public class Stock
 
     public float getValue()
     {
-        if (values.Count > 0)
-        {
-            return values[values.Count - 1];
-        }
-        return -1f;
+        return values.Count > 0 ? values[values.Count - 1] : -1f;
     }
 
     public float getValue(int time)
     {
-        if (time > 0)
-        {
-            return values[time];
-        }
-        return -1f;
+        return time > 0 ? values[time] : -1f;
     }
 
     public float getTrend()
     {
-        if (values.Count > 1)
-        {
-            return values[values.Count - 1] / values[values.Count - 2];
-        }
-        return -1f;
+        return values.Count > 1 ? values[values.Count - 1] / values[values.Count - 2] : -1f;
     }
 
     public float getTrend(int time)
     {
-        if (values.Count > 1)
-        {
-            return values[time] / values[time - 1];
-        }
-        return -1f;
+        return values.Count > 1 ? values[time] / values[time - 1] : -1f;
     }
 
     public float getTrend(int time, int oldTime)
     {
-        if (values.Count > 1)
-        {
-            return values[time] / values[oldTime];
-        }
-        return -1f;
+        return values.Count > 1 ? values[time] / values[oldTime] : -1f;
     }
 
     // profit/deficit
     public float getNet()
     {
-        if (values.Count > 0)
-        {
-            return values[values.Count - 1] - values[0];
-        }
-        return 0f;
+        return values.Count > 0 ? values[values.Count - 1] - values[0] : 0f;
+    }
+
+    // profit/deficit
+    public float getNet(int time)
+    {
+        return values.Count > 0 ? values[time] - values[bought] : 0f;
+    }
+
+    // time at purchase
+    public void setBought()
+    {
+        bought = 0;
+    }
+
+    // time at purchase
+    public void setBought(int time)
+    {
+        bought = time;
     }
 
     public string getName()
@@ -87,5 +82,25 @@ public class Stock
     public float getDividend()
     {
         return dividend;
+    }
+
+    public string getNews(int time)
+    {
+        News.Trend temp = News.Trend.neutral;
+        int future = time + interval;
+        if (future >= values.Count)
+        {
+            future = values.Count - 1;
+        }
+        float trend = getTrend(future, time);
+        if (trend > 1f)
+        {
+            temp = News.Trend.good;
+        }
+        else if (trend < 1f && trend > 0f)
+        {
+            temp = News.Trend.bad;
+        }
+        return News.getTemplate(temp).Replace(News.getMagicSeq(), key);
     }
 }
