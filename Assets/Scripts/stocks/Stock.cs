@@ -59,6 +59,14 @@ public class Stock
         return time >= 0 && values.Count > 0 ? values[time] : -1f;
     }
 
+    public float displayTrend() {
+        return getTrend() - 1f;
+    }
+    
+    public float displayTrend(int time) {
+        return getTrend(time) - 1f;
+    }
+
     public float getTrend()
     {
         return values.Count > 1 ? values[values.Count - 1] / values[values.Count - 2] : -1f;
@@ -107,9 +115,13 @@ public class Stock
         return key;
     }
 
-    public float getDividend()
+    public float getDivi()
     {
         return dividend;
+    }
+
+    public float displayDivi() {
+        return dividend - 1f;
     }
 
     public string getNews(int time)
