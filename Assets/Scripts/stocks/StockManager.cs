@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StockManager
 {
-    //buy, sell, private keygen, constructor
+    //private keygen, constructor
     List<Stock> portfolio;
     float balance;
 
@@ -33,17 +33,34 @@ public class StockManager
         return balance;
     }
 
-    public bool buy()
+    public bool buy(int i, int time)
     {
-        bool able = false;
-        //TODO
+        return buy(i, 1, time);
+    }
+
+    public bool buy(int i, int num, int time)
+    {
+        float val = portfolio[i].getValue(time) * num;
+        bool able = portfolio[i].stockAvail(num) && balance >= val;
+        if (able) {
+            portfolio[i].buy(num);
+            balance -= val;
+        }
         return able;
     }
 
-    public bool sell()
+    public bool sell(int i, int time)
     {
-        bool able = false;
-        //TODO
+        return sell(i, 1, time);
+    }
+
+    public bool sell(int i, int num, int time)
+    {
+        bool able = portfolio[i].getBought() >= num;
+        if (able) {
+            portfolio[i].sell(num);
+            balance += portfolio[i].getValue() * num;
+        }
         return able;
     }
 }

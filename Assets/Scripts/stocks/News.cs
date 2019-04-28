@@ -5,6 +5,7 @@ using UnityEngine;
 public static class News
 {
     public enum Trend { good, bad, neutral };
+    private static string error = "404 News Not Found";
     private static string magicSeq = "____";
 
     private static string[] justNews = {
@@ -52,5 +53,10 @@ public static class News
     public static string getMagicSeq()
     {
         return magicSeq;
+    }
+
+    public static string errorMsg()
+    {
+        return error;
     }
 }

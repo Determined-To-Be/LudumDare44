@@ -20,9 +20,33 @@ public class Stock
         myShares = bought = 0;
     }
 
+    public void buy() {
+        buy(1);
+    }
+
+    public void buy(int num) {
+        myShares += num;
+    }
+
+    public bool stockAvail() {
+        return stockAvail(1);
+    }
+
+    public bool stockAvail(int num) {
+        return shares >= myShares + num;
+    }
+
+    public void sell() {
+        sell(1);
+    }
+
+    public void sell(int num) {
+        myShares -= num;
+    }
+
     public void setValue(float val)
     {
-        values.Add(val);
+        values.Add(val >= 0f ? val : 0f);
     }
 
     public float getValue()
@@ -32,7 +56,7 @@ public class Stock
 
     public float getValue(int time)
     {
-        return time > 0 ? values[time] : -1f;
+        return time >= 0 && values.Count > 0 ? values[time] : -1f;
     }
 
     public float getTrend()
@@ -42,12 +66,12 @@ public class Stock
 
     public float getTrend(int time)
     {
-        return values.Count > 1 ? values[time] / values[time - 1] : -1f;
+        return values.Count > 1 && time >= 0 ? values[time] / values[time - 1] : -1f;
     }
 
     public float getTrend(int time, int oldTime)
     {
-        return values.Count > 1 ? values[time] / values[oldTime] : -1f;
+        return values.Count > 1 && time > oldTime && oldTime >= 0? values[time] / values[oldTime] : -1f;
     }
 
     // profit/deficit
@@ -59,19 +83,23 @@ public class Stock
     // profit/deficit
     public float getNet(int time)
     {
-        return values.Count > 0 ? values[time] - values[bought] : 0f;
+        return values.Count > 0 && time >= 0 ? values[time] - values[bought] : 0f;
+    }
+
+    public int getBought() {
+        return bought;
     }
 
     // time at purchase
     public void setBought()
     {
-        bought = 0;
+        setBought(0);
     }
 
     // time at purchase
     public void setBought(int time)
     {
-        bought = time;
+        bought = time >= 0 ? time : 0;
     }
 
     public string getName()
@@ -86,21 +114,24 @@ public class Stock
 
     public string getNews(int time)
     {
+        bool able = time >= 0;
         News.Trend temp = News.Trend.neutral;
-        int future = time + interval;
-        if (future >= values.Count)
-        {
-            future = values.Count - 1;
+        if (able) {
+            int future = time + interval;
+            if (future >= values.Count)
+            {
+                future = values.Count - 1;
+            }
+            float trend = getTrend(future, time);
+            if (trend > 1f)
+            {
+                temp = News.Trend.good;
+            }
+            else if (trend < 1f && trend > 0f)
+            {
+                temp = News.Trend.bad;
+            }
         }
-        float trend = getTrend(future, time);
-        if (trend > 1f)
-        {
-            temp = News.Trend.good;
-        }
-        else if (trend < 1f && trend > 0f)
-        {
-            temp = News.Trend.bad;
-        }
-        return News.getTemplate(temp).Replace(News.getMagicSeq(), key);
+        return able ? News.getTemplate(temp).Replace(News.getMagicSeq(), key) : News.errorMsg();
     }
 }
