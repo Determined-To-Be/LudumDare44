@@ -7,9 +7,10 @@ public static class News
     public enum Trend { good, bad, neutral };
     private static string error = "404 News Not Found";
     private static string magicSeq = "____";
+    private static string special = "There are many rumors surrounding ____, maybe they're true???";
 
     private static string[] justNews = {
-        "No events surrounding ___ currently."
+        "No events surrounding ____ currently."
     };
 
     private static string[] goodNews = {
@@ -58,5 +59,10 @@ public static class News
     public static string errorMsg()
     {
         return error;
+    }
+
+    public static string getSpecial()
+    {
+        return special;
     }
 }

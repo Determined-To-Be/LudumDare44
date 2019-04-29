@@ -4,19 +4,18 @@ using UnityEngine;
 
 public class StockManager
 {
-    private static string elphaba = "QWERTYUIOPASDFGHJKLZXCVBNM";
-    private static int maxChars = 4, maxShares = 1000, stocks = 100;
-    private static float chancePayout = .1f, maxDivi = 1.1f, 
-        maxVal = 10f, startBal = 10000f;
+    private static int maxStocks = 100;
+    public static int endOfTime = 480; // 9-5!
+    private static float startBal = 50000f;
 
     public List<Stock> portfolio;
     float balance;
 
-    public StockManager() : this(stocks) {}
+    public StockManager() : this(maxStocks) {}
 
     public StockManager(int num)
     {
-        portfolio = new List<Stock>(stocks);
+        portfolio = new List<Stock>(maxStocks);
         addStocks(num);
         balance = startBal;
     }
@@ -26,16 +25,13 @@ public class StockManager
     }
 
     public bool addEntry(int num) {
-        return num + portfolio.Count <= stocks ? addStocks(num) : false;
+        return num + portfolio.Count <= maxStocks ? addStocks(num) : false;
     }
 
     bool addStocks(int num) {
-        bool payout = false;
-        num = num > stocks ? stocks : num;
+        num = num > maxStocks ? maxStocks : num;
         for (int i = num - 1; i >= 0; i--) {
-            payout = Random.Range(0f, 1f) < chancePayout;
-            portfolio.Add(new Stock(keygen(), payout ? Random.Range(1f, maxDivi) : 1f, 
-                Random.Range(0.001f, maxVal), Random.Range(1, maxShares)));
+            portfolio.Add(new Stock(endOfTime));
         }
         return true;
     }
@@ -94,21 +90,5 @@ public class StockManager
             balance += portfolio[i].getValue() * num;
         }
         return able;
-    }
-
-    string keygen() {
-        string key = "";
-        for (int i = Random.Range(1, maxChars); i > 0; i--) {
-            key += elphaba[Random.Range(0, elphaba.Length - 1)];
-        }
-        return key;
-    }
-
-    public void initializeValues(int gameTime){
-        for(int i = 0; i < portfolio.Count; i++){
-            for(int j = 0; j < gameTime; j++){
-                portfolio[i].setValue(portfolio[i].getValue() + Random.RandomRange(-50, 50));
-            }
-        }
     }
 }

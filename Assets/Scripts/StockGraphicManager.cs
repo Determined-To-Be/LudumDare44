@@ -5,7 +5,6 @@ using TMPro;
 
 public class StockGraphicManager : MonoBehaviour
 {
-    public int endOfTime = 480; // 9-5!
     public int stockCount = 10;
 
     public bool gameRunning = true;
@@ -25,7 +24,6 @@ public class StockGraphicManager : MonoBehaviour
     void Start()
     {
         manager = new StockManager(stockCount);
-        manager.initializeValues(endOfTime);
         graphics = new StockGraphic[manager.portfolio.Count];
 
         for(int i = 0; i < manager.portfolio.Count; i++){
@@ -43,7 +41,7 @@ public class StockGraphicManager : MonoBehaviour
             return;
         }
 
-        endOfGameText.text = "You made $" + (int)manager.getPortfolioValue(endOfTime - 1) + " today!";
+        endOfGameText.text = "You made $" + (int)manager.getPortfolioValue(StockManager.endOfTime - 1) + " today!";
         endOfGamePopup.SetActive(true);
     }
 
@@ -52,7 +50,7 @@ public class StockGraphicManager : MonoBehaviour
         int thisTime = (int)Time.timeSinceLevelLoad;
         if(lastTime == thisTime)
             return;
-        if(thisTime >= endOfTime)
+        if(thisTime >= StockManager.endOfTime)
             gameRunning = false;
             
         clock.text = GameSecondsToTime(thisTime);
@@ -66,8 +64,8 @@ public class StockGraphicManager : MonoBehaviour
     }
 
     string GameSecondsToTime(int seconds){
-        int hour = (seconds / 60) + 9 % 13;
-        int minutes = seconds % 60;
+        int hour = (seconds / Stock.interval) + 9 % 13;
+        int minutes = seconds % Stock.interval;
 
         string ampm = "AM";
         string leadingZero = "";
