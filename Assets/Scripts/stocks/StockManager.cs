@@ -9,8 +9,10 @@ public class StockManager
     private static float chancePayout = .1f, maxDivi = 1.1f, 
         maxVal = float.MaxValue, startBal = 10000f;
 
-    List<Stock> portfolio;
+    public List<Stock> portfolio;
     float balance;
+
+    public static StockManager instance;
 
     public StockManager() : this(stocks) {}
 
@@ -19,6 +21,7 @@ public class StockManager
         portfolio = new List<Stock>(stocks);
         addStocks(num);
         balance = startBal;
+        instance = this;
     }
 
     public bool addEntry() {

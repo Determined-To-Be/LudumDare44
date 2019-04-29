@@ -64,7 +64,7 @@ public class Stock
     }
     
     public float displayTrend(int time) {
-        return getTrend(time) - 1f;
+        return (getTrend(time) - 1f) * 100f;
     }
 
     public float getTrend()
@@ -104,6 +104,10 @@ public class Stock
         setBought(0);
     }
 
+    public int getShares(){
+        return shares;
+    }
+
     // time at purchase
     public void setBought(int time)
     {
@@ -121,7 +125,7 @@ public class Stock
     }
 
     public float displayDivi() {
-        return dividend - 1f;
+        return (dividend - 1f) * 100f;
     }
 
     public string getNews(int time)
