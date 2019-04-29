@@ -13,9 +13,21 @@ public class StockGraphic : MonoBehaviour
 
     public StockGraphicManager manager;
 
+    public Popup newsPopup;
+    public Button ticker;
 
     void Start(){
         manager = GameObject.FindGameObjectWithTag("StockManager").GetComponent<StockGraphicManager>();
+        
+        
+        newsPopup = GameObject.FindObjectOfType<Popup>();
+        
+
+        ticker.onClick.AddListener(openPopup);
+    }
+
+    void openPopup(){
+        newsPopup.openPopup(index, time, manager);
     }
 
     public void UpdateGraphic(int index, int time){

@@ -11,7 +11,7 @@ public class StockGraphicManager : MonoBehaviour
     public GameObject template;
     public Transform content;
 
-    public TMP_Text clock;
+    public TMP_Text clock, balance, net, gross;
 
     public StockManager manager;
     public StockGraphic[] graphics;
@@ -44,6 +44,9 @@ public class StockGraphicManager : MonoBehaviour
             return;
             
         clock.text = GameSecondsToTime(thisTime);
+        balance.text = "$" + (int)manager.getBalance();
+        gross.text = "$" + (int)manager.getGross(thisTime);
+        net.text = "$" + (int)manager.getPortfolioValue(thisTime);
 
         for(int i = 0; i < graphics.Length; i++){
             graphics[i].UpdateGraphic(i, thisTime);
