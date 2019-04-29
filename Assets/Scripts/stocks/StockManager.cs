@@ -5,14 +5,12 @@ using UnityEngine;
 public class StockManager
 {
     private static string elphaba = "QWERTYUIOPASDFGHJKLZXCVBNM";
-    private static int maxChars = 4, maxShares = 10000, stocks = 100;
+    private static int maxChars = 4, maxShares = 1000, stocks = 100;
     private static float chancePayout = .1f, maxDivi = 1.1f, 
-        maxVal = float.MaxValue, startBal = 10000f;
+        maxVal = 10f, startBal = 10000f;
 
     public List<Stock> portfolio;
     float balance;
-
-    public static StockManager instance;
 
     public StockManager() : this(stocks) {}
 
@@ -21,7 +19,6 @@ public class StockManager
         portfolio = new List<Stock>(stocks);
         addStocks(num);
         balance = startBal;
-        instance = this;
     }
 
     public bool addEntry() {
@@ -105,5 +102,13 @@ public class StockManager
             key += elphaba[Random.Range(0, elphaba.Length - 1)];
         }
         return key;
+    }
+
+    public void initializeValues(int gameTime){
+        for(int i = 0; i < portfolio.Count; i++){
+            for(int j = 0; j < gameTime; j++){
+                portfolio[i].setValue(portfolio[i].getValue() + Random.RandomRange(-50, 50));
+            }
+        }
     }
 }

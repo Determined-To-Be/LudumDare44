@@ -5,23 +5,29 @@ using TMPro;
 
 public class StockGraphicManager : MonoBehaviour
 {
+    public int endOfTime = 480; // 9-5!
+    public int stockCount = 10;
 
     public GameObject template;
     public Transform content;
 
     public TMP_Text clock;
 
-    StockManager manager;
-    List<StockGraphic> graphics = new List<StockGraphic>();
+    public StockManager manager;
+    public StockGraphic[] graphics;
 
     // Start is called before the first frame update
     void Start()
     {
-        manager = new StockManager();
+        manager = new StockManager(stockCount);
+        manager.initializeValues(endOfTime);
+        graphics = new StockGraphic[manager.portfolio.Count];
 
         for(int i = 0; i < manager.portfolio.Count; i++){
-            Instantiate(template, content.position, Quaternion.identity, content.transform);
+            graphics[i] = (Instantiate(template, content.position, Quaternion.identity, content.transform).GetComponent<StockGraphic>());
+            graphics[i].index = i;
         }
+
 
     }
 
@@ -34,12 +40,13 @@ public class StockGraphicManager : MonoBehaviour
     int lastTime = 0;
     void UpdateGraphics(){
         int thisTime = (int)Time.timeSinceLevelLoad;
-        clock.text = GameSecondsToTime(thisTime);
         if(lastTime == thisTime)
             return;
+            
+        clock.text = GameSecondsToTime(thisTime);
 
-        for(int i = 0; i < graphics.Count; i++){
-            graphics[i].UpdateGraphic(i, thisTime, manager.portfolio[i]);
+        for(int i = 0; i < graphics.Length; i++){
+            graphics[i].UpdateGraphic(i, thisTime);
         }
     }
 

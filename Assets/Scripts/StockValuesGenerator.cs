@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TimeManager : MonoBehaviour
+public class StockValuesGenerator : MonoBehaviour
 {
-
-    List<StockGraphic> graphics = new List<StockGraphic>();
     // Start is called before the first frame update
     void Start()
     {

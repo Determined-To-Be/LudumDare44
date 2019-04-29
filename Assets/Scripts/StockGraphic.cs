@@ -8,24 +8,50 @@ public class StockGraphic : MonoBehaviour
 {
     public TMP_Text symbol, shares,price, trend, dividend, transaction;
     public Button sell, buy, up, down;
-    int index = 0;
-    int time = 0;
-    public void UpdateGraphic(int index, int time, Stock stock){
+    public int index = 0;
+    public int time = 0;
+
+    public StockGraphicManager manager;
+
+
+    void Start(){
+        manager = GameObject.FindGameObjectWithTag("StockManager").GetComponent<StockGraphicManager>();
+    }
+
+    public void UpdateGraphic(int index, int time){
+        Stock stock = manager.manager.portfolio[index];
+        
+        if(stock == null){
+
+            Debug.Log("Hey stock at " + index + " is null pls fix");
+            return;
+        }
+
         this.index = index;
         this.time = time;
         symbol.text = stock.getName();
         shares.text = stock.getBought() + "/" + stock.getShares();
-        price.text = "$" + stock.getValue(time);
-        trend.text = stock.displayTrend(time) + "%";
-        dividend.text = stock.displayDivi() + "%";
+        price.text = "$" + (int)stock.getValue(time);
+        trend.text = (int)stock.displayTrend(time) + "%";
+        dividend.text = (int)stock.displayDivi() + "%";
+        transaction.text = transactionCount + "";
     }
 
     public void Buy(){
-        StockManager.instance.buy(index, time, transactionCount);
+        bool val = manager.manager.buy(index, time, transactionCount);
+        if(!val)
+            Debug.Log("Failed to buy " + manager.manager.portfolio[index]);
+
+        UpdateGraphic(index, time);
     }
 
     public void Sell(){
-        StockManager.instance.sell(index, time, transactionCount);
+        bool val = manager.manager.sell(index, time, transactionCount);
+
+        if(!val)
+            Debug.Log("Failed to sell " + manager.manager.portfolio[index]);
+
+        UpdateGraphic(index, time);
     }
 
     int transactionCount = 0;
@@ -35,6 +61,9 @@ public class StockGraphic : MonoBehaviour
     }
 
     public void DecreaseTransactionCount(){
+        if(transactionCount <= 0)
+            return;
+
         transactionCount--;
         transaction.text = "" + transactionCount;
     }
