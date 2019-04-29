@@ -8,6 +8,8 @@ public class StockGraphicManager : MonoBehaviour
     public int endOfTime = 480; // 9-5!
     public int stockCount = 10;
 
+    public bool gameRunning = true;
+
     public GameObject template;
     public Transform content;
 
@@ -15,6 +17,9 @@ public class StockGraphicManager : MonoBehaviour
 
     public StockManager manager;
     public StockGraphic[] graphics;
+
+    public TMP_Text endOfGameText;
+    public GameObject endOfGamePopup;
 
     // Start is called before the first frame update
     void Start()
@@ -28,20 +33,27 @@ public class StockGraphicManager : MonoBehaviour
             graphics[i].index = i;
         }
 
-
+        
     }
 
     
     void Update(){
-        UpdateGraphics();
-    }
+        if(gameRunning){
+            UpdateGraphics();
+            return;
+        }
 
+        endOfGameText.text = "You made $" + (int)manager.getPortfolioValue(endOfTime - 1) + " today!";
+        endOfGamePopup.SetActive(true);
+    }
 
     int lastTime = 0;
     void UpdateGraphics(){
         int thisTime = (int)Time.timeSinceLevelLoad;
         if(lastTime == thisTime)
             return;
+        if(thisTime >= endOfTime)
+            gameRunning = false;
             
         clock.text = GameSecondsToTime(thisTime);
         balance.text = "$" + (int)manager.getBalance();
