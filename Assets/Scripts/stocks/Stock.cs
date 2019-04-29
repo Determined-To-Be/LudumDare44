@@ -15,10 +15,8 @@ public class Stock
     float dividend;
     int shares, myShares, bought;
 
-    public Stock(int gameTime) {
-        this(keygen(), Random.Range(0f, 1f) < chancePayout ? Random.Range(1f, maxDivi) : 1f,
-            Random.Range(minVal, maxVal), Random.Range(minVal, maxVal), Random.Range(1, maxShares), gameTime);
-    }
+    public Stock(int gameTime) : this(keygen(), Random.Range(0f, 1f) < chancePayout ? Random.Range(1f, maxDivi) : 1f,
+            Random.Range(minVal, maxVal), Random.Range(minVal, maxVal), Random.Range(1, maxShares), gameTime) {}
 
     public Stock(string key, float dividend, float value, float value2, int shares, int gameTime)
     {
@@ -26,7 +24,7 @@ public class Stock
         this.dividend = dividend;
         if (specialKey())
         {
-            int j = Random.Range(69f, 420f);
+            float j = Random.Range(69f, 420f);
             for (int i = 0; i < gameTime; i++)
             {
                 values.Add(j);
@@ -159,7 +157,7 @@ public class Stock
 
     public string getNews(int time)
     {
-        if (specialKey)
+        if (specialKey())
         {
             return News.getSpecial().Replace(News.getMagicSeq(), key);
         }
@@ -184,7 +182,7 @@ public class Stock
         return able ? News.getTemplate(temp).Replace(News.getMagicSeq(), key) : News.errorMsg();
     }
 
-    string keygen()
+    private static string keygen()
     {
         string key = "";
         for (int i = Random.Range(1, maxChars); i > 0; i--)
@@ -197,6 +195,6 @@ public class Stock
     bool specialKey()
     {
         // our initials ;-)
-        return key == "SMB" || "JGN";
+        return key == "SMB" || key == "JGN";
     }
 }
