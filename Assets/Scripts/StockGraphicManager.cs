@@ -55,8 +55,8 @@ public class StockGraphicManager : MonoBehaviour
             
         clock.text = GameSecondsToTime(thisTime);
         balance.text = "$" + (int)manager.getBalance();
-        gross.text = "$" + (int)manager.getGross(thisTime);
-        net.text = "$" + (int)manager.getPortfolioValue(thisTime);
+        net.text = "$" + (int)manager.getGross(thisTime);
+        gross.text = "$" + (int)manager.getPortfolioValue(thisTime);
 
         manager.doPayouts(thisTime);
 

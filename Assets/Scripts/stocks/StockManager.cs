@@ -41,7 +41,7 @@ public class StockManager
         float total = 0f;
         for (int i = portfolio.Count - 1; i >= 0; i--)
         {
-            total += portfolio[i].getValue(time);
+            total += portfolio[i].getValue(time) * portfolio[i].getBought();
         }
         return total;
     }
@@ -51,7 +51,7 @@ public class StockManager
         float total = 0f;
         for (int i = portfolio.Count - 1; i >= 0; i--)
         {
-            total += portfolio[i].getNet(time);
+            total += portfolio[i].getNet(time) * portfolio[i].getBought();
         }
         return total;
     }
