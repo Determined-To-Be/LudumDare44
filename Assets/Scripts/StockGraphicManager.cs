@@ -50,6 +50,7 @@ public class StockGraphicManager : MonoBehaviour
         int thisTime = (int)Time.timeSinceLevelLoad;
         if(lastTime == thisTime)
             return;
+        lastTime = thisTime;
         if(thisTime >= StockManager.endOfTime)
             gameRunning = false;
             

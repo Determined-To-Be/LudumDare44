@@ -7,15 +7,15 @@ public class Stock
     public static int interval = 60; // time projection for news
     private static string elphaba = "QWERTYUIOPASDFGHJKLZXCVBNM";
     private static int maxChars = 4, maxShares = 1000;
-    private static float maxDivi = 1.1f, chancePayout = .1f, maxVal = 1000f, 
-        minVal = 1f, chanceFlip = 0.1f, discr = 0.1f;
+    private static float maxDivi = .1f, chancePayout = .1f, maxVal = 1000f, 
+        minVal = 1f, chanceFlip = 0.1f, discr = 0.01f;
     
     List<float> values = new List<float>();
     string key;
     float dividend;
     int shares, myShares, bought;
 
-    public Stock(int gameTime) : this(keygen(), Random.Range(0f, 1f) < chancePayout ? Random.Range(1f, maxDivi) : 1f,
+    public Stock(int gameTime) : this(keygen(), Random.Range(0f, 1f) < chancePayout ? Random.Range(0f, maxDivi) : 0f,
             Random.Range(minVal, maxVal), Random.Range(minVal, maxVal), Random.Range(1, maxShares), gameTime) {}
 
     public Stock(string key, float dividend, float value, float value2, int shares, int gameTime)
@@ -141,7 +141,7 @@ public class Stock
     }
 
     public float displayDivi() {
-        return (dividend - 1f) * 100f;
+        return (dividend) * 100f;
     }
 
     public string getNews(int time)
