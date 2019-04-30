@@ -50,7 +50,7 @@ public class StockGraphic : MonoBehaviour
     }
 
     public void Buy(){
-        bool val = manager.manager.buy(index, time, transactionCount);
+        bool val = manager.manager.buy(index, transactionCount, time);
         if(!val)
             Debug.Log("Failed to buy " + manager.manager.portfolio[index]);
 
@@ -58,7 +58,7 @@ public class StockGraphic : MonoBehaviour
     }
 
     public void Sell(){
-        bool val = manager.manager.sell(index, time, transactionCount);
+        bool val = manager.manager.sell(index, transactionCount, time);
 
         if(!val)
             Debug.Log("Failed to sell " + manager.manager.portfolio[index]);

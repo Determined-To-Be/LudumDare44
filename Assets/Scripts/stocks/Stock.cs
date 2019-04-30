@@ -119,6 +119,7 @@ public class Stock
     // profit/deficit
     public float getNet(int time)
     {
+        // this only gives you the net for the last time you bought the stock, fix after jam
         return values.Count > 0 && time >= 0 ? values[time] - values[bought] : 0f;
     }
 
