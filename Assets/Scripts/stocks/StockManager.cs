@@ -87,8 +87,16 @@ public class StockManager
         bool able = portfolio[i].getBought() >= num;
         if (able) {
             portfolio[i].sell(num);
-            balance += portfolio[i].getValue() * num;
+            balance += portfolio[i].getValue(time) * num;
         }
         return able;
+    }
+
+    public void doPayouts(int time)
+    {
+        for (int i = portfolio.Count - 1; i >= 0; i--)
+        {
+            balance += portfolio[i].getValue(time) * portfolio[i].getDivi() * portfolio[i].getBought();
+        }
     }
 }

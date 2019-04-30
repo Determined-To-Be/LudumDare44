@@ -58,6 +58,8 @@ public class StockGraphicManager : MonoBehaviour
         gross.text = "$" + (int)manager.getGross(thisTime);
         net.text = "$" + (int)manager.getPortfolioValue(thisTime);
 
+        manager.doPayouts(thisTime);
+
         for(int i = 0; i < graphics.Length; i++){
             graphics[i].UpdateGraphic(i, thisTime);
         }
