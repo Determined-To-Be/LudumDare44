@@ -47,12 +47,13 @@ public class Stock
         myShares = bought = 0;
     }
 
-    public void buy() {
-        buy(1);
+    public void buy(int time) {
+        buy(1, time);
     }
 
-    public void buy(int num) {
+    public void buy(int num, int time) {
         myShares += num;
+        bought = time;
     }
 
     public bool stockAvail() {
@@ -122,23 +123,11 @@ public class Stock
     }
 
     public int getBought() {
-        return bought;
-    }
-
-    // time at purchase
-    public void setBought()
-    {
-        setBought(0);
+        return myShares;
     }
 
     public int getShares(){
         return shares;
-    }
-
-    // time at purchase
-    public void setBought(int time)
-    {
-        bought = time >= 0 ? time : 0;
     }
 
     public string getName()

@@ -71,7 +71,7 @@ public class StockManager
         float val = portfolio[i].getValue(time) * num;
         bool able = portfolio[i].stockAvail(num) && balance >= val;
         if (able) {
-            portfolio[i].buy(num);
+            portfolio[i].buy(num, time);
             balance -= val;
         }
         return able;
