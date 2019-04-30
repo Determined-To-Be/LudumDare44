@@ -7,8 +7,8 @@ public class Stock
     public static int interval = 60; // time projection for news
     private static string elphaba = "QWERTYUIOPASDFGHJKLZXCVBNM";
     private static int maxChars = 4, maxShares = 1000;
-    private static float maxDivi = 1.1f, chancePayout = .1f, maxVal = 10000f, 
-        minVal = 0.001f, chanceFlip = 0.1f, discr = 0.1f;
+    private static float maxDivi = 1.1f, chancePayout = .1f, maxVal = 1000f, 
+        minVal = 1f, chanceFlip = 0.1f, discr = 0.1f;
     
     List<float> values = new List<float>();
     string key;
@@ -41,7 +41,7 @@ public class Stock
 
             for (int i = gameTime; i >= 2; i--)
             {
-                values.Add((getTrend() * Random.Range(0f, 1f) < chanceFlip ? -1f : 1f + Random.Range(-discr, discr)) * getValue());
+                values.Add(((Random.Range(0f, 1f) < chanceFlip ? 1 / getTrend() : getTrend()) + Random.Range(-discr, discr)) * getValue());
             }
         }
         myShares = bought = 0;
