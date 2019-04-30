@@ -67,19 +67,13 @@ public class StockGraphicManager : MonoBehaviour
     }
 
     string GameSecondsToTime(int seconds){
-        int hour = (seconds / Stock.interval) + 9 % 13;
+        int hour = (seconds / Stock.interval) + 9;
         int minutes = seconds % Stock.interval;
 
-        string ampm = "AM";
         string leadingZero = "";
-        if(hour < 9){
-            hour++;
-            ampm = "PM";
-        }
-
         if(minutes < 10)
             leadingZero = "0";
 
-        return hour + ":" + leadingZero + minutes + " " + ampm;
+        return hour + ":" + leadingZero + minutes;
     }
 }
